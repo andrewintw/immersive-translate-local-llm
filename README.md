@@ -38,6 +38,8 @@
 
 ![](images/ollama-02.png)
 
+NOTE: 你也可以使用此儲存庫附的 [start_ollama.bat](start_ollama.bat) 啟用 Ollama。
+
 如何驗證是否有成功？
 
 開啟網頁瀏覽器，前往 `http://localhost:11434/` 若看見 `Ollama is running` 表示 Ollama 已經在本機運作。
@@ -128,7 +130,7 @@ Youtube 影片的字幕也能正常翻譯
 
 特別提醒：此類即時網頁翻譯場景不適合使用推理型（Thinking）模型，否則每次請求都會因模型花時間「思考」而產生明顯延遲。
 
-若你的硬體規格相仿，也可考慮專門用於翻譯的 [translategemma:4b](https://ollama.com/library/translategemma)（支援 55 種語言）。不過根據我實際測試，在我的筆電上運作速度稍微偏慢，且因為是 4B 規模，顯存占用也會比 3B 稍微多一點。
+若你的硬體規格相仿，也可考慮專門用於翻譯的 [translategemma:4b](https://ollama.com/library/translategemma)（支援 55 種語言）。不過根據我實際測試，在我的筆電上運作速度稍微偏慢一點（其實我認為是可以接受的程度），且因為是 4B 規模，顯存占用也會比 3B 稍微多一點。
 
 建議根據自身設備等級嘗試不同模型，在「翻譯品質」與「推論速度」之間取得最佳平衡。
 
