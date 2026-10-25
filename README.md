@@ -128,10 +128,60 @@ Youtube 影片的字幕也能正常翻譯
 
 我目前使用 `qwen2.5-coder:3b` 的原因，在於我的筆電顯卡（RTX 3050）僅有 4GB 顯存，無法流暢運行較大體積的模型。
 
-特別提醒：此類即時網頁翻譯場景不適合使用推理型（Thinking）模型，否則每次請求都會因模型花時間「思考」而產生明顯延遲。
+特別提醒：若要在即時網頁翻譯場景中使用本地模型，不適合使用推理型（Thinking）模型，否則每次請求都會因模型花時間「思考」而產生明顯延遲。
 
 若你的硬體規格相仿，也可考慮專門用於翻譯的 [translategemma:4b](https://ollama.com/library/translategemma)（支援 55 種語言）。不過根據我實際測試，在我的筆電上運作速度稍微偏慢一點（其實我認為是可以接受的程度），且因為是 4B 規模，顯存占用也會比 3B 稍微多一點。
 
 建議根據自身設備等級嘗試不同模型，在「翻譯品質」與「推論速度」之間取得最佳平衡。
+
+
+## 補充：使用 Ollama 雲端模型（Cloud Models）
+
+前面介紹的做法是將模型完全部署在本地端：這需要將模型權重下載到本機硬碟，不僅會佔用硬碟空間，也受限於個人的顯示卡與記憶體規格。
+
+如果你希望能免除硬體門檻、體驗更大規模的模型，其實可以直接利用 Ollama Cloud。只要註冊 Ollama 帳號，官方就有提供一定額度的免費雲端模型可供調用。
+
+![](images/ollama-free-llm.png)
+
+使用雲端模型前，請先確保系統允許連線至雲端服務；若雲端功能被停用，呼叫模型時可能會跳出以下錯誤訊息：
+
+```
+403: ollama cloud is disabled: remote model is unavailable
+```
+
+![](images/ollama-en-cloud-llm.png)
+
+確認啟用後，開啟終端機執行登入指令 `ollama signin`，並依照畫面提示完成帳號授權：
+
+![](images/ollama-signin.png)
+
+確認啟用後，開啟終端機執行登入指令 ollama signin，並依照畫面提示完成帳號授權：
+
+這裡需要注意的是，當你透過 Ollama 使用雲端模型的時候，事實上你不是對雲端的主機直接發送 API 請求，而是透過本地的 Ollama 伺服器做轉介。
+
+因此你的操作邏輯跟使用地端模型的行為完全一樣，你只需要在本地端進行 `ollama pull <model_name>`，後面接雲端模型的名稱（例如: `gpt-oss:120b-cloud` 或 `gemma4:31b-cloud`），就可以 pull 一個 cloud 模型到本地端：
+
+```
+ollama pull gpt-oss:120b-cloud
+```
+
+「把雲端模型 pull 到本地」聽起來有點反直覺，但事實上它並沒有下載動輒數十 GB 的模型權重，而是只下載了模型的設定檔與路由中繼資料（Metadata）。
+
+執行 ollama list 查看時，你會發現雲端模型的 SIZE 欄位是空白（-）的，下載通常在一兩秒內就會完成，完全不會佔用寶貴的硬碟空間。
+
+下載完成後，沉浸式翻譯就能像切換本地模型一樣，直接無縫調用這組強大的雲端模型了！
+
+![](images/ollama-cloud-llm.png)
+
+那麼推薦哪些雲端模型呢？
+
+我自己測試過 Ollama 上面免費的模型，推薦你可以嘗試以下這三款。雖然它們都具備 Thinking 功能，但在雲端強大的算力下，回應延遲並不明顯：
+
+1. gpt-oss:120b-cloud
+2. gemma4:31b-cloud
+3. nemotron-3-ultra:cloud
+
+
+![](images/immersivetranslate-cloud-llm.png)
 
 ~ END ~
